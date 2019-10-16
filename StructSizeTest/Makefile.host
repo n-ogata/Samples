@@ -1,0 +1,45 @@
+PROJECT       = $(shell basename `readlink -f .`)
+
+MARILYN_LIB   = ../../Marilyn-EM1/3DOCTMgr/Library
+
+CC            = gcc
+CXX           = g++
+LINK          = $(CXX)
+DEFINES       = -pipe -O2 -Wall -W -D_REENTRANT -fPIC
+CFLAGS        = $(DEFINES)
+CXXFLAGS      = $(DEFINES) -std=gnu++11
+INCPATH       = -I. -I$(MARILYN_LIB)/Common -I$(MARILYN_LIB)/defs
+LIBS          = -Wl,-rpath,/usr/lib -ldl -lrt -lpthread
+
+DEL_FILE      = rm -f
+MKDIR         = mkdir -p
+
+SRCDIR        = .
+SOURCES_C     = $(wildcard $(SRCDIR)/*.c)
+SOURCES_CPP   = $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS_DIR   = ./obj
+OBJECTS       = $(addprefix $(OBJECTS_DIR)/, $(notdir $(SOURCES_C:.c=.o) $(SOURCES_CPP:.cpp=.o)))
+DEPENDS       = $(OBJECTS:.o=.d)
+DESTDIR       = ./bin
+TARGET        = $(DESTDIR)/$(PROJECT)
+
+$(TARGET): $(OBJECTS)
+	@$(MKDIR) $(DESTDIR)
+	$(LINK) $(LFLAGS) -o $@ $^ $(LIBS)
+
+$(OBJECTS_DIR)/%.o: $(SRCDIR)/%.c
+	@$(MKDIR) $(OBJECTS_DIR)
+	@$(CC) $(CFLAGS) $(INCPATH) -o $@ -c $<
+
+$(OBJECTS_DIR)/%.o: $(SRCDIR)/%.cpp
+	@$(MKDIR) $(OBJECTS_DIR)
+	@$(CXX) $(CXXFLAGS) $(INCPATH) -o $@ -c $<
+
+.PHONY: all
+all: clean $(TARGET)
+
+.PHONY: clean
+clean:
+	$(DEL_FILE) $(OBJECTS) $(DEPENDS) $(TARGET)
+
+-include $(DEPENDS)
