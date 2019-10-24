@@ -1,15 +1,24 @@
-macro_rules! input {
-    (source = $s:expr, $($r:tt)*) => {
+use std::io::Read;
+
+#[allow(dead_code)]
+fn read_line(n: usize) -> String {
+    let mut ss = String::new();
+    for _i in 0..n {
+        let mut s = String::new();
+        std::io::stdin().read_line(&mut s).unwrap();
+        ss.push_str(&s);
+    }
+    ss
+}
+
+macro_rules! parse {
+    ($s:expr => $($r:tt)*) => {
         let mut iter = $s.split_whitespace();
         input_inner!{iter, $($r)*}
     };
     ($($r:tt)*) => {
-        let s = {
-            use std::io::Read;
-            let mut s = String::new();
-            std::io::stdin().read_to_string(&mut s).unwrap();
-            s
-        };
+        let mut s = String::new();
+        std::io::stdin().read_to_string(&mut s).unwrap();
         let mut iter = s.split_whitespace();
         input_inner!{iter, $($r)*}
     };
@@ -48,17 +57,29 @@ macro_rules! read_value {
 
 fn main()
 {
-    let s = {
-        use std::io::Read;
-        let mut s = String::new();
-        std::io::stdin().read_to_string(&mut s).unwrap();
-        s
-    };
-    input!{
-        source = s,
-        n: u64,
-        mut v: [i32; n],
+    {
+        parse!{
+            n: u64,
+            v: [i32; n],
+        }
+        println!("{:?}", v);
     }
-    v[0] = 0;
-    println!("{:?}", v);
+    //{
+    //    let s = read_line(2);
+    //    parse!{
+    //        s =>
+    //        n: u64,
+    //        v: [i32; n],
+    //    }
+    //    println!("{:?}", v);
+    //}
+    //{
+    //    let s = read_line(2);
+    //    parse!{
+    //        s =>
+    //        n: u64,
+    //        v: [i32; n],
+    //    }
+    //    println!("{:?}", v);
+    //}
 }
