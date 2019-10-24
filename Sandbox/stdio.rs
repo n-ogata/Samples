@@ -22,6 +22,10 @@ macro_rules! input_inner {
         let $var = read_value!($iter, $t);
         input_inner!{$iter $($r)*}
     };
+    ($iter:expr, mut $var:ident : $t:tt $($r:tt)*) => {
+        let mut $var = read_value!($iter, $t);
+        input_inner!{$iter $($r)*}
+    };
 }
 
 macro_rules! read_value {
@@ -53,7 +57,8 @@ fn main()
     input!{
         source = s,
         n: u64,
-        v: [i32; n],
+        mut v: [i32; n],
     }
+    v[0] = 0;
     println!("{:?}", v);
 }
