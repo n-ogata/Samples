@@ -4,19 +4,27 @@
 use ::std::prelude::v1::*;
 #[macro_use]
 extern crate std;
-macro_rules! input {
-    (source = $ s : expr, $ ($ r : tt) *) =>
+#[allow(dead_code)]
+fn read_line(n: usize) -> String {
+    let mut ss = String::new();
+    for _i in 0..n {
+        let mut s = String::new();
+        std::io::stdin().read_line(&mut s).unwrap();
+        ss.push_str(&s);
+    }
+    ss
+}
+
+macro_rules! parse {
+    ($ s : expr => $ ($ r : tt) *) =>
     {
-        let mut iter = $ s . split_whitespace () ; input_inner !
+        let s = $ s ; let mut iter = s . split_whitespace () ; input_inner !
         { iter, $ ($ r) * }
     } ; ($ ($ r : tt) *) =>
     {
-        let s =
-        {
-            use std :: io :: Read ; let mut s = String :: new () ; std :: io
-            :: stdin () . read_to_string (& mut s) . unwrap () ; s
-        } ; let mut iter = s . split_whitespace () ; input_inner !
-        { iter, $ ($ r) * }
+        use std :: io :: Read ; let mut s = String :: new () ; std :: io ::
+        stdin () . read_to_string (& mut s) . unwrap () ; parse !
+        { s => $ ($ r) * }
     } ;
 }
 
@@ -25,6 +33,10 @@ macro_rules! input_inner {
     ($ iter : expr, $ var : ident : $ t : tt $ ($ r : tt) *) =>
     {
         let $ var = read_value ! ($ iter, $ t) ; input_inner !
+        { $ iter $ ($ r) * }
+    } ; ($ iter : expr, mut $ var : ident : $ t : tt $ ($ r : tt) *) =>
+    {
+        let mut $ var = read_value ! ($ iter, $ t) ; input_inner !
         { $ iter $ ($ r) * }
     } ;
 }
@@ -49,24 +61,55 @@ macro_rules! read_value {
 }
 
 fn main() {
-    let s =
-        {
-            use std::io::Read;
-            let mut s = String::new();
-            std::io::stdin().read_to_string(&mut s).unwrap();
-            s
-        };
-    let mut iter = s.split_whitespace();
-    let n = iter.next().unwrap().parse::<u64>().expect("Parse error");
-    let v =
-        (0..n).map(|_|
-                       iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
     {
-        ::std::io::_print(::core::fmt::Arguments::new_v1(&["", "\n"],
-                                                         &match (&v,) {
-                                                              (arg0,) =>
-                                                              [::core::fmt::ArgumentV1::new(arg0,
-                                                                                            ::core::fmt::Debug::fmt)],
-                                                          }));
-    };
+        use std::io::Read;
+        let mut s = String::new();
+        std::io::stdin().read_to_string(&mut s).unwrap();
+        let s = s;
+        let mut iter = s.split_whitespace();
+        let n = iter.next().unwrap().parse::<u64>().expect("Parse error");
+        let v =
+            (0..n).map(|_|
+                           iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
+        {
+            ::std::io::_print(::core::fmt::Arguments::new_v1(&["", "\n"],
+                                                             &match (&v,) {
+                                                                  (arg0,) =>
+                                                                  [::core::fmt::ArgumentV1::new(arg0,
+                                                                                                ::core::fmt::Debug::fmt)],
+                                                              }));
+        };
+    }
+    {
+        let s = read_line(2);
+        let mut iter = s.split_whitespace();
+        let n = iter.next().unwrap().parse::<u64>().expect("Parse error");
+        let v =
+            (0..n).map(|_|
+                           iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
+        {
+            ::std::io::_print(::core::fmt::Arguments::new_v1(&["", "\n"],
+                                                             &match (&v,) {
+                                                                  (arg0,) =>
+                                                                  [::core::fmt::ArgumentV1::new(arg0,
+                                                                                                ::core::fmt::Debug::fmt)],
+                                                              }));
+        };
+    }
+    {
+        let s = read_line(2);
+        let mut iter = s.split_whitespace();
+        let n = iter.next().unwrap().parse::<u64>().expect("Parse error");
+        let v =
+            (0..n).map(|_|
+                           iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
+        {
+            ::std::io::_print(::core::fmt::Arguments::new_v1(&["", "\n"],
+                                                             &match (&v,) {
+                                                                  (arg0,) =>
+                                                                  [::core::fmt::ArgumentV1::new(arg0,
+                                                                                                ::core::fmt::Debug::fmt)],
+                                                              }));
+        };
+    }
 }

@@ -1,4 +1,3 @@
-use std::io::Read;
 
 #[allow(dead_code)]
 fn read_line(n: usize) -> String {
@@ -13,14 +12,15 @@ fn read_line(n: usize) -> String {
 
 macro_rules! parse {
     ($s:expr => $($r:tt)*) => {
-        let mut iter = $s.split_whitespace();
+        let s = $s;
+        let mut iter = s.split_whitespace();
         input_inner!{iter, $($r)*}
     };
     ($($r:tt)*) => {
+        use std::io::Read;
         let mut s = String::new();
         std::io::stdin().read_to_string(&mut s).unwrap();
-        let mut iter = s.split_whitespace();
-        input_inner!{iter, $($r)*}
+        parse!{s => $($r)*}
     };
 }
 
@@ -64,22 +64,20 @@ fn main()
         }
         println!("{:?}", v);
     }
-    //{
-    //    let s = read_line(2);
-    //    parse!{
-    //        s =>
-    //        n: u64,
-    //        v: [i32; n],
-    //    }
-    //    println!("{:?}", v);
-    //}
-    //{
-    //    let s = read_line(2);
-    //    parse!{
-    //        s =>
-    //        n: u64,
-    //        v: [i32; n],
-    //    }
-    //    println!("{:?}", v);
-    //}
+    {
+        parse!{
+            read_line(2) =>
+            n: u64,
+            v: [i32; n],
+        }
+        println!("{:?}", v);
+    }
+    {
+        parse!{
+            read_line(2) =>
+            n: u64,
+            v: [i32; n],
+        }
+        println!("{:?}", v);
+    }
 }
