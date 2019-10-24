@@ -57,9 +57,11 @@ macro_rules! read_value {
 
 fn main()
 {
+    // 複数回読み込む
     {
         parse!{
-            n: u64,
+            read_line(2) =>
+            n: usize,
             v: [i32; n],
         }
         println!("{:?}", v);
@@ -67,15 +69,16 @@ fn main()
     {
         parse!{
             read_line(2) =>
-            n: u64,
-            v: [i32; n],
+            n: usize,
+            mut v: [i32; n],
         }
+        v[0] = 1;
         println!("{:?}", v);
     }
+    // 一気に読み込む
     {
         parse!{
-            read_line(2) =>
-            n: u64,
+            n: usize,
             v: [i32; n],
         }
         println!("{:?}", v);

@@ -61,45 +61,48 @@ macro_rules! read_value {
 }
 
 fn main() {
+    // 複数回読み込む
+    {
+        let s = read_line(2);
+        let mut iter = s.split_whitespace();
+        let n = iter.next().unwrap().parse::<usize>().expect("Parse error");
+        let v =
+            (0..n).map(|_|
+                           iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
+        // 一気に読み込む
+        {
+            ::std::io::_print(::core::fmt::Arguments::new_v1(&["", "\n"],
+                                                             &match (&v,) {
+                                                                  (arg0,) =>
+                                                                  [::core::fmt::ArgumentV1::new(arg0,
+                                                                                                ::core::fmt::Debug::fmt)],
+                                                              }));
+        };
+    }
+    {
+        let s = read_line(2);
+        let mut iter = s.split_whitespace();
+        let n = iter.next().unwrap().parse::<usize>().expect("Parse error");
+        let mut v =
+            (0..n).map(|_|
+                           iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
+        v[0] = 1;
+        {
+            ::std::io::_print(::core::fmt::Arguments::new_v1(&["", "\n"],
+                                                             &match (&v,) {
+                                                                  (arg0,) =>
+                                                                  [::core::fmt::ArgumentV1::new(arg0,
+                                                                                                ::core::fmt::Debug::fmt)],
+                                                              }));
+        };
+    }
     {
         use std::io::Read;
         let mut s = String::new();
         std::io::stdin().read_to_string(&mut s).unwrap();
         let s = s;
         let mut iter = s.split_whitespace();
-        let n = iter.next().unwrap().parse::<u64>().expect("Parse error");
-        let v =
-            (0..n).map(|_|
-                           iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
-        {
-            ::std::io::_print(::core::fmt::Arguments::new_v1(&["", "\n"],
-                                                             &match (&v,) {
-                                                                  (arg0,) =>
-                                                                  [::core::fmt::ArgumentV1::new(arg0,
-                                                                                                ::core::fmt::Debug::fmt)],
-                                                              }));
-        };
-    }
-    {
-        let s = read_line(2);
-        let mut iter = s.split_whitespace();
-        let n = iter.next().unwrap().parse::<u64>().expect("Parse error");
-        let v =
-            (0..n).map(|_|
-                           iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
-        {
-            ::std::io::_print(::core::fmt::Arguments::new_v1(&["", "\n"],
-                                                             &match (&v,) {
-                                                                  (arg0,) =>
-                                                                  [::core::fmt::ArgumentV1::new(arg0,
-                                                                                                ::core::fmt::Debug::fmt)],
-                                                              }));
-        };
-    }
-    {
-        let s = read_line(2);
-        let mut iter = s.split_whitespace();
-        let n = iter.next().unwrap().parse::<u64>().expect("Parse error");
+        let n = iter.next().unwrap().parse::<usize>().expect("Parse error");
         let v =
             (0..n).map(|_|
                            iter.next().unwrap().parse::<i32>().expect("Parse error")).collect::<Vec<_>>();
