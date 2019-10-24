@@ -44,7 +44,14 @@ macro_rules! read_value {
 
 fn main()
 {
+    let s = {
+        use std::io::Read;
+        let mut s = String::new();
+        std::io::stdin().read_to_string(&mut s).unwrap();
+        s
+    };
     input!{
+        source = s,
         n: u64,
         v: [i32; n],
     }
