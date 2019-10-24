@@ -18,7 +18,6 @@ macro_rules! input {
 macro_rules! input_inner {
     ($iter:expr) => {};
     ($iter:expr, ) => {};
-
     ($iter:expr, $var:ident : $t:tt $($r:tt)*) => {
         let $var = read_value!($iter, $t);
         input_inner!{$iter $($r)*}
@@ -29,19 +28,15 @@ macro_rules! read_value {
     ($iter:expr, ( $($t:tt),* )) => {
         ( $(read_value!($iter, $t)),* )
     };
-
     ($iter:expr, [ $t:tt ; $len:expr ]) => {
         (0..$len).map(|_| read_value!($iter, $t)).collect::<Vec<_>>()
     };
-
     ($iter:expr, chars) => {
         read_value!($iter, String).chars().collect::<Vec<char>>()
     };
-
     ($iter:expr, usize1) => {
         read_value!($iter, usize) - 1
     };
-
     ($iter:expr, $t:ty) => {
         $iter.next().unwrap().parse::<$t>().expect("Parse error")
     };
@@ -51,7 +46,7 @@ fn main()
 {
     input!{
         n: u64,
-        _v: [i32; n],
+        v: [i32; n],
     }
-    //println!("{:?}", v);
+    println!("{:?}", v);
 }
